@@ -18,9 +18,25 @@ public class BarCode
         if (barCode.length() != 32) throw new IllegalArgumentException();
         for (int i = 0; i < 32; i++)
         {
-            if (barCode.substring(i, i + 1) != "|" && barCode.substring(i, i + 1) != ":") throw new IllegalArgumentException();
-            fullBars[i] = barCode.substring(i, i + 1) == "|";
+            if (!barCode.substring(i, i + 1).equals("|") && !barCode.substring(i, i + 1).equals(":")) throw new IllegalArgumentException();
+            fullBars[i] = barCode.substring(i, i + 1).equals("|");
         }
+    }
+    
+    public Digit GetDigit(int position)
+    {
+        int i = 5 * position + 1;
+        if ( fullBars[i + 0] &&  fullBars[i + 1] && !fullBars[i + 2] && !fullBars[i + 3] && !fullBars[i + 4]) return new Digit(0);
+        if (!fullBars[i + 0] && !fullBars[i + 1] && !fullBars[i + 2] &&  fullBars[i + 3] &&  fullBars[i + 4]) return new Digit(1);
+        if (!fullBars[i + 0] && !fullBars[i + 1] &&  fullBars[i + 2] && !fullBars[i + 3] &&  fullBars[i + 4]) return new Digit(2);
+        if (!fullBars[i + 0] && !fullBars[i + 1] &&  fullBars[i + 2] &&  fullBars[i + 3] && !fullBars[i + 4]) return new Digit(3);
+        if (!fullBars[i + 0] &&  fullBars[i + 1] && !fullBars[i + 2] && !fullBars[i + 3] &&  fullBars[i + 4]) return new Digit(4);
+        if (!fullBars[i + 0] &&  fullBars[i + 1] && !fullBars[i + 2] &&  fullBars[i + 3] && !fullBars[i + 4]) return new Digit(5);
+        if (!fullBars[i + 0] &&  fullBars[i + 1] &&  fullBars[i + 2] && !fullBars[i + 3] && !fullBars[i + 4]) return new Digit(6);
+        if ( fullBars[i + 0] && !fullBars[i + 1] && !fullBars[i + 2] && !fullBars[i + 3] &&  fullBars[i + 4]) return new Digit(7);
+        if ( fullBars[i + 0] && !fullBars[i + 1] && !fullBars[i + 2] &&  fullBars[i + 3] && !fullBars[i + 4]) return new Digit(8);
+        if ( fullBars[i + 0] && !fullBars[i + 1] &&  fullBars[i + 2] && !fullBars[i + 3] && !fullBars[i + 4]) return new Digit(9);
+        throw new IllegalArgumentException();
     }
     
     private void SetDigit(int position, Digit digit)
