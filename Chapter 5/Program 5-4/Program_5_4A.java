@@ -5,16 +5,16 @@ public class Program_5_4A
     public static void main(String[] args)
     {
         System.out.print("Enter ZIP code: ");
-        BarCode a = new BarCode(Digit.ZipCodeDigits(new Scanner(System.in).nextInt()));
-        System.out.println(a);
-        BarCode b = new BarCode(a.toString());
-        System.out.println(b);
-        for (int i = 0; i < 5; i++)
+        try
         {
-            System.out.println(b.GetDigit(i).value);
+            System.out.println(new BarCode(Digit.ZipCodeDigits(new Scanner(System.in).nextInt())));
+        }
+        catch (IllegalArgumentException e)
+        {
+            System.out.println("Invalid ZIP code.");
         }
     }
-
+    
     public static String BarCode(int zipCode)
     {
         String barCode = "|";

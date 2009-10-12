@@ -130,4 +130,32 @@ public class BarCode
         for (int i = 0; i < 32; i++) barCode += fullBars[31 - i] ? (int)Math.pow(2, i) : 0;
         return barCode;
     }
+    
+    public boolean AreDigitsValid()
+    {
+        try
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                GetDigit(i);
+            }
+            return true;
+        }
+        catch (IllegalArgumentException e)
+        {
+            return false;
+        }
+    }
+    
+    public boolean IsValidZIPCodeBarCode()
+    {
+        if (!fullBars[0] || !fullBars[31]) return false;
+        if (!AreDigitsValid()) return false;
+        int sum = 0;
+        for (int i = 0; i < 6; i++)
+        {
+            sum += GetDigit(i).value;
+        }
+        return sum % 10 == 0;
+    }
 }
