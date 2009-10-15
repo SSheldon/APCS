@@ -1,6 +1,6 @@
 public class Dice
 {
-    Die[] dice;
+    private Die[] dice;
     
     public Dice(int dice, int sides)
     {
@@ -14,5 +14,34 @@ public class Dice
     public Dice()
     {
         this(2, 6);
+    }
+    
+    public int GetRollCounter()
+    {
+        return dice[0].GetRollCounter();
+    }
+    
+    public int Roll()
+    {
+        for (Die die : dice)
+        {
+            die.Roll();
+        }
+        return GetSidesSum();
+    }
+    
+    public int GetSidesSum()
+    {
+        int sum = 0;
+        for (Die die : dice)
+        {
+            sum += die.GetSide();
+        }
+        return sum;
+    }
+    
+    public String toString()
+    {
+        return "" + GetSidesSum();
     }
 }
