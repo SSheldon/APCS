@@ -42,6 +42,6 @@ public class Dice
     
     public String toString()
     {
-        return "" + GetSidesSum();
+        return "Sides sum: " + GetSidesSum();
     }
 }

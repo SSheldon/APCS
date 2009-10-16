@@ -2,14 +2,38 @@ public class Program_5_3
 {
     public static void main(String[] args)
     {
-        Hand hand = new Hand(
-            new Card(Card.Suit.Spades, 8),
-            new Card(Card.Suit.Clubs, 8),
-            new Card(Card.Suit.Clubs, 8),
-            new Card(Card.Suit.Clubs, 2),
-            new Card(Card.Suit.Clubs, 2));
+        Card[] cards = new Card[5];
+        for (int i = 0; i < 5; i++)
+        {
+            int rank = (int)(Math.random() * 12) + 2;
+            Card.Suit suit;
+            switch ((int)(Math.random() * 4))
+            {
+                case 0:
+                    suit = Card.Suit.Clubs;
+                    break;
+                case 1:
+                    suit = Card.Suit.Spades;
+                    break;
+                case 2:
+                    suit = Card.Suit.Hearts;
+                    break;
+                default:
+                    suit = Card.Suit.Diamonds;
+                    break;    
+            }
+            cards[i] = new Card(suit, rank);
+            System.out.println(i + ": " + cards[i]);
+        }
         
-        System.out.println(TypeOfHand(hand.GetHandType()));
+        Hand hand = new Hand(
+            cards[0],
+            cards[1],
+            cards[2],
+            cards[3],
+            cards[4]);
+        
+        System.out.println(hand.GetHandType());
     }
     
     public static String TypeOfHand(Hand.HandType handType)

@@ -2,34 +2,43 @@ public class Card implements Comparable
 {
     public static enum Suit { Clubs, Spades, Hearts, Diamonds }
     
-    public Suit suit;    
-    public int value;
+    public final Suit suit;    
+    public final int rank;
     
-    public Card(Suit suit, int value)
+    public Card(Suit suit, int rank)
     {
+        if (rank < 2 || rank > 14) throw new IllegalArgumentException();
         this.suit = suit;
-        this.value = value;
+        this.rank = rank;
     }
     
-    public String GetValue()
+    public boolean equals(Object obj)
     {
-        switch (value)
+        Card card = (Card)obj;
+        return this.rank == card.rank && this.suit == card.suit;
+    }
+    
+    public String toString()
+    {
+        String rankString;
+        switch (rank)
         {
             case 11:
-                return "Jack";
+                rankString = "Jack";
             case 12:
-                return "Queen";
+                rankString = "Queen";
             case 13:
-                return "King";
+                rankString = "King";
             case 14:
-                return "Ace";
+                rankString = "Ace";
             default:
-                return Integer.toString(value);
+                rankString = Integer.toString(rank);
         }
+        return rankString + " of " + suit;
     }
     
     public int compareTo(Object obj)
     {
-        return (int)Math.signum(this.value - ((Card)obj).value);
+        return (int)Math.signum(this.rank - ((Card)obj).rank);
     }
 }

@@ -1,10 +1,10 @@
 import java.util.Arrays;
 
-public class Hand// implements Comparable
+public class Hand implements Comparable
 {
     public static enum HandType { HighCards, OnePair, TwoPair, ThreeOfAKind, Straight, Flush, FullHouse, FourOfAKind, StraightFlush; }
     
-    Card[] cards = new Card[5];
+    private Card[] cards = new Card[5];
     
     public Hand(Card c1, Card c2, Card c3, Card c4, Card c5)
     {
@@ -16,29 +16,34 @@ public class Hand// implements Comparable
         Arrays.sort(cards);
     }
     
-    boolean IsStraight()
+    public Card GetCard(int index)
+    {
+        return cards[index];
+    }
+    
+    private boolean IsStraight()
     {
         //check for repeated cards
         for (int i1 = 0; i1 < 5; i1++)
         {
             for (int i2 = 0; i2 < 5; i2++)
             {
-                if (i2 != i1 && cards[i1].value == cards[i2].value) return false;
+                if (i2 != i1 && cards[i1].rank == cards[i2].rank) return false;
             }
         }
         //check if hand is straight
-        if (cards[0].value == 2 && cards[1].value == 3 && cards[2].value == 4 && cards[3].value == 5 && cards[4].value == 14) return true;
+        if (cards[0].rank == 2 && cards[1].rank == 3 && cards[2].rank == 4 && cards[3].rank == 5 && cards[4].rank == 14) return true;
         else
         {
             for (int i = 1; i < 5; i++)
             {
-                if (cards[i].value != cards[i - 1].value + 1) return false;
+                if (cards[i].rank != cards[i - 1].rank + 1) return false;
             }
             return true;
         }
     }
     
-    boolean IsFlush()
+    private boolean IsFlush()
     {
         Card.Suit suit = cards[0].suit;
         for (Card card : cards)
@@ -55,8 +60,8 @@ public class Hand// implements Comparable
         //FourOfAKind
         if (this.ContainsSet(4)) return HandType.FourOfAKind;
         //FullHouse
-        if ((cards[0].value == cards[1].value && cards[0].value == cards[2].value && cards[3].value == cards[4].value) ||
-            (cards[0].value == cards[1].value && cards[2].value == cards[3].value && cards[2].value == cards[4].value)) 
+        if ((cards[0].rank == cards[1].rank && cards[0].rank == cards[2].rank && cards[3].rank == cards[4].rank) ||
+            (cards[0].rank == cards[1].rank && cards[2].rank == cards[3].rank && cards[2].rank == cards[4].rank)) 
             return HandType.FullHouse;
         //Flush
         if (this.IsFlush()) return HandType.Flush;
@@ -72,14 +77,14 @@ public class Hand// implements Comparable
         return HandType.HighCards;
     }
     
-    boolean ContainsSet(int number)
+    private boolean ContainsSet(int number)
     {
         for (int i = 0; i < 6 - number; i++)
         {
             boolean isSet = true;
             for (int a = 0; a < number - 1; a++)
             {
-                if (cards[i + a].value != cards[i + a + 1].value) isSet = false;
+                if (cards[i + a].rank != cards[i + a + 1].rank) isSet = false;
                 if (!isSet) break;
             }
             if (isSet) return true;
@@ -87,78 +92,122 @@ public class Hand// implements Comparable
         return false;
     }
     
-    int NumberOfPairs()
+    private int NumberOfPairs()
     {
         int number = 0;
         for (int i = 0; i < 4; i++)
         {
-            if (cards[i].value == cards[i + 1].value) number++;
+            if (cards[i].rank == cards[i + 1].rank) number++;
         }
         return number;
     }
     
-//  public int compareTo(Object obj)
-//  {
-//      Hand hand = (Hand)obj;
-//      if ((int)this.GetHandType() < (int)hand.GetHandType()) return -1;
-//      if ((int)this.GetHandType() > (int)hand.GetHandType()) return 1;
-//      if (this.GetHandType() == hand.GetHandType())
-//      {
-//          switch (this.GetHandType())
-//          {
-//              case HandType.StraightFlush:
-//              case HandType.Straight:
-//                  return (int)Math.signum((double)(this.GetHighCardValue(0) - hand.GetHighCardValue(0)));
-//              case HandType.FourOfAKind:
-//                  
-//              case HandType.FullHouse:
-//                  
-//              case HandType.Straight:
-//                  
-//              case HandType.ThreeOfAKind:
-//                  
-//              case HandType.TwoPair:
-//                  
-//              case HandType.OnePair:
-//                  
-//              case HandType.Flush:
-//              case HandType.HighCards:
-//                  
-//          }
-//      }
-//      return 0;
-//  }
-//  
-//  public int GetHighCardValue(int place)
-//  {
-//      switch (this.GetHandType())
-//      {
-//          case HandType.StraightFlush:
-//          case HandType.Straight:
-//              if (cards[4] == 14) return 5;
-//              else return cards[4];
-//          case HandType.FourOfAKind:
-//              
-//          case HandType.FullHouse:
-//              
-//          case HandType.ThreeOfAKind:
-//              
-//          case HandType.TwoPair:
-//              
-//          case HandType.OnePair:
-//              
-//          case HandType.Flush:
-//          case HandType.HighCards:
-//              return cards[place].value;
-//  }   
-}
+    public int compareTo(Object obj)
+    {
+        Hand hand = (Hand)obj;
+        if (this.GetHandType() == hand.GetHandType())
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if (this.GetHighCardRank(i) != hand.GetHighCardRank(i))
+                    return (int)Math.signum(this.GetHighCardRank(i) - hand.GetHighCardRank(i));
+            }
+            throw new RuntimeException();
+        }
+        else return (int)Math.signum(this.GetHandType().ordinal() - hand.GetHandType().ordinal());
+    }
 
-//StraightFlush has 1 level of comparison
-//FourOfAKind has 2 levels of comparison
-//FullHouse has 2 levels of comparison
-//Flush has 1 level of comparison
-//Straight has 5 levels of comparison
-//ThreeOfAKind has 3 levels of comparison
-//TwoPair has 3 levels of comparison
-//OnePair has 4 levels of comparison
-//HighCards has 5 levels of comparison
+    private int GetHighCardRank(int index)
+    {
+        switch (this.GetHandType())
+        {
+            case StraightFlush:
+            case Straight:
+                if (cards[0].rank == 2 && cards[4].rank == 14) return cards[(index == 4 ? 4 : 3 - index)].rank;
+                else return cards[4 - index].rank;
+            case FourOfAKind:
+                if (index >= 0 && index <= 3) return cards[cards[0].rank == cards[3].rank ? 0 : 4].rank;
+                else return cards[cards[0].rank == cards[3].rank ? 4 : 0].rank;
+            case FullHouse:
+                if (index >= 0 && index <= 2) return cards[cards[0].rank == cards[2].rank ? 0 : 4].rank;
+                else return cards[cards[0].rank == cards[2].rank ? 4 : 0].rank;                
+            case ThreeOfAKind:
+                int three = 0;
+                for (int i = 0; i < 3; i++)
+                {
+                    if (cards[i].rank == cards[i + 1].rank && cards[i].rank == cards[i + 2].rank)
+                    {
+                        three = cards[i].rank;
+                        break;
+                    }
+                }
+                if (index >= 0 && index <= 2) return three;
+                else
+                {
+                    if (index == 3)
+                    {
+                        for (int i = 4; i >= 0; i--)
+                            if (cards[i].rank != three) return cards[i].rank;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 5; i++)
+                            if (cards[i].rank != three) return cards[i].rank;
+                    }
+                }
+            case TwoPair:
+                int highPair = 0;
+                for (int i = 4; i >= 1; i--)
+                {
+                    if (cards[i].rank == cards[i - 1].rank)
+                    {
+                        highPair = cards[i].rank;
+                        break;
+                    }
+                }
+                if (index == 0 || index == 1) return highPair;
+                int lowPair = 0;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (cards[i].rank == cards[i + 1].rank)
+                    {
+                        lowPair = cards[i].rank;
+                        break;
+                    }
+                }
+                if (index == 2 || index == 3) return lowPair;
+                else
+                {
+                    for (int i = 0; i < 5; i++)
+                        if (cards[i].rank != highPair && cards[i].rank != lowPair)
+                            return cards[i].rank;
+                }
+            case OnePair:
+                int pair = 0;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (cards[i].rank == cards[i + 1].rank)
+                    {
+                        pair = cards[i].rank;
+                        break;
+                    }
+                }
+                if (index == 0 || index == 1) return pair;
+                int counter = 0;
+                for (int i = 4; i >= 0; i--)
+                {
+                    if (cards[i].rank != pair)
+                    {
+                        if (counter == index - 2) return cards[i].rank;
+                        counter++;
+                    }
+                }
+                throw new RuntimeException();
+            case Flush:
+            case HighCards:
+                return cards[4 - index].rank;
+            default:
+                throw new RuntimeException();
+        }
+    }
+}

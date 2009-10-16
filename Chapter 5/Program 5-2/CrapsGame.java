@@ -21,15 +21,19 @@ public class CrapsGame
     public void Run()
     {
         Initialize();        
-        do
+        while (bankroll > 0)
         {
-            System.out.print("Enter your bet ($0 to quit): $");
-            int bet = scanner.nextInt();
-            if (bet <= 0) break;
+            int bet;
+            do
+            {
+                System.out.print("Enter your bet ($0 to quit): $");
+                bet = scanner.nextInt();
+            } while (bet > bankroll || bet < 0);
+            if (bet == 0) break;
             if (RunRound()) WinRound(bet);
             else LoseRound(bet);
             System.out.println("Your current bankroll is $" + bankroll);
-        } while (bankroll > 0);
+        }
         System.out.println("Thanks for playing! You finished with $" + bankroll);
     }
     
