@@ -25,14 +25,19 @@ public class Card implements Comparable
         {
             case 11:
                 rankString = "Jack";
+                break;
             case 12:
                 rankString = "Queen";
+                break;
             case 13:
                 rankString = "King";
+                break;
             case 14:
                 rankString = "Ace";
+                break;
             default:
                 rankString = Integer.toString(rank);
+                break;
         }
         return rankString + " of " + suit;
     }

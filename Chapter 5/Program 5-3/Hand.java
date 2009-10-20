@@ -31,8 +31,9 @@ public class Hand implements Comparable
                 if (i2 != i1 && cards[i1].rank == cards[i2].rank) return false;
             }
         }
-        //check if hand is straight
-        if (cards[0].rank == 2 && cards[1].rank == 3 && cards[2].rank == 4 && cards[3].rank == 5 && cards[4].rank == 14) return true;
+        //check if cards are sequential
+        if (cards[0].rank == 2 && cards[1].rank == 3 && cards[2].rank == 4
+            && cards[3].rank == 5 && cards[4].rank == 14) return true;
         else
         {
             for (int i = 1; i < 5; i++)
@@ -41,7 +42,7 @@ public class Hand implements Comparable
             }
             return true;
         }
-    }
+    }   
     
     private boolean IsFlush()
     {
@@ -55,25 +56,16 @@ public class Hand implements Comparable
     
     public HandType GetHandType()
     {
-        //StraightFlush
-        if (this.IsFlush() && this.IsStraight()) return HandType.StraightFlush;
-        //FourOfAKind
-        if (this.ContainsSet(4)) return HandType.FourOfAKind;
-        //FullHouse
-        if ((cards[0].rank == cards[1].rank && cards[0].rank == cards[2].rank && cards[3].rank == cards[4].rank) ||
+        if (IsFlush() && IsStraight()) return HandType.StraightFlush;
+        if (ContainsSet(4)) return HandType.FourOfAKind;
+        if ((cards[0].rank == cards[1].rank && cards[0].rank ==  cards[2].rank && cards[3].rank == cards[4].rank) ||
             (cards[0].rank == cards[1].rank && cards[2].rank == cards[3].rank && cards[2].rank == cards[4].rank)) 
             return HandType.FullHouse;
-        //Flush
-        if (this.IsFlush()) return HandType.Flush;
-        //Straight
-        if (this.IsStraight()) return HandType.Straight;
-        //ThreeOfAKind
-        if (this.ContainsSet(3)) return HandType.ThreeOfAKind;
-        //TwoPair
-        if (this.NumberOfPairs() == 2) return HandType.TwoPair;
-        //OnePair
-        if (this.ContainsSet(2)) return HandType.OnePair;
-        //HighCards
+        if (IsFlush()) return HandType.Flush;
+        if (IsStraight()) return HandType.Straight;
+        if (ContainsSet(3)) return HandType.ThreeOfAKind;
+        if (NumberOfPairs() == 2) return HandType.TwoPair;
+        if (ContainsSet(2)) return HandType.OnePair;
         return HandType.HighCards;
     }
     
@@ -84,13 +76,14 @@ public class Hand implements Comparable
             boolean isSet = true;
             for (int a = 0; a < number - 1; a++)
             {
-                if (cards[i + a].rank != cards[i + a + 1].rank) isSet = false;
+                if (cards[i + a].rank != cards[i + a + 1].rank)
+                isSet = false;
                 if (!isSet) break;
             }
             if (isSet) return true;
         }
         return false;
-    }
+    }   
     
     private int NumberOfPairs()
     {
@@ -130,7 +123,7 @@ public class Hand implements Comparable
                 else return cards[cards[0].rank == cards[3].rank ? 4 : 0].rank;
             case FullHouse:
                 if (index >= 0 && index <= 2) return cards[cards[0].rank == cards[2].rank ? 0 : 4].rank;
-                else return cards[cards[0].rank == cards[2].rank ? 4 : 0].rank;                
+                else return cards[cards[0].rank == cards[2].rank ? 4 : 0].rank;                   
             case ThreeOfAKind:
                 int three = 0;
                 for (int i = 0; i < 3; i++)
@@ -174,13 +167,12 @@ public class Hand implements Comparable
                         lowPair = cards[i].rank;
                         break;
                     }
-                }
+                }               
                 if (index == 2 || index == 3) return lowPair;
                 else
                 {
                     for (int i = 0; i < 5; i++)
-                        if (cards[i].rank != highPair && cards[i].rank != lowPair)
-                            return cards[i].rank;
+                        if (cards[i].rank != highPair &&  cards[i].rank != lowPair) return cards[i].rank;
                 }
             case OnePair:
                 int pair = 0;

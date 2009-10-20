@@ -2,41 +2,82 @@ public class Program_5_3
 {
     public static void main(String[] args)
     {
-        Card[] cards = new Card[5];
-        for (int i = 0; i < 5; i++)
+        Card[] cards = new Card[10];
+        for (int i = 0; i < 10; i++)
         {
-            int rank = (int)(Math.random() * 12) + 2;
+            int rank;
             Card.Suit suit;
-            switch ((int)(Math.random() * 4))
+            do
             {
-                case 0:
-                    suit = Card.Suit.Clubs;
-                    break;
-                case 1:
-                    suit = Card.Suit.Spades;
-                    break;
-                case 2:
-                    suit = Card.Suit.Hearts;
-                    break;
-                default:
-                    suit = Card.Suit.Diamonds;
-                    break;    
-            }
+                rank = (int)(Math.random() * 12) + 2;
+                switch ((int)(Math.random() * 4))
+                {
+                    case 0:
+                        suit = Card.Suit.Clubs;
+                        break;
+                    case 1:
+                        suit = Card.Suit.Spades;
+                        break;
+                    case 2:
+                        suit = Card.Suit.Hearts;
+                        break;
+                    default:
+                        suit = Card.Suit.Diamonds;
+                        break;    
+                }
+            } while (CardsContains(cards, new Card(suit, rank)));
             cards[i] = new Card(suit, rank);
-            System.out.println(i + ": " + cards[i]);
         }
-        
-        Hand hand = new Hand(
+        Hand hand1 = new Hand(
             cards[0],
             cards[1],
             cards[2],
             cards[3],
             cards[4]);
-        
-        System.out.println(hand.GetHandType());
+        System.out.println("Hand 1 cards:");
+        for (int i = 0; i < 5; i++)
+        {            
+            System.out.println(i + ": " + hand1.GetCard(i));
+        }
+        System.out.println("Hand 1 type: " + 
+            HandTypeToString(hand1.GetHandType()));
+        Hand hand2 = new Hand(
+            cards[5],
+            cards[6],
+            cards[7],
+            cards[8],
+            cards[9]);
+         System.out.println("Hand 2 cards:");
+        for (int i = 0; i < 5; i++)
+        {            
+            System.out.println(i + ": " + hand2.GetCard(i));
+        }        
+        System.out.println("Hand 2 type: " + 
+            HandTypeToString(hand2.GetHandType()));
+        switch (hand1.compareTo(hand2))
+        {
+            case -1:
+                System.out.println("Hand 2 is better.");
+                break;
+            case 0:
+                System.out.println("The hands are equally good.");
+                break;
+            case 1:
+                System.out.println("Hand 1 is better.");
+                break;
+        }
     }
     
-    public static String TypeOfHand(Hand.HandType handType)
+    public static boolean CardsContains(Card[] cards, Card card)
+    {
+        for (Card cardsCard : cards)
+        {
+            if (cardsCard != null && cardsCard.equals(card)) return true;
+        }
+        return false;
+    }
+    
+    public static String HandTypeToString(Hand.HandType handType)
     {
         switch (handType)
         {
@@ -59,7 +100,7 @@ public class Program_5_3
             case HighCards:
                 return "High Cards";
             default:
-                return "Oh teh noes!";
+                throw new RuntimeException();
         }
     }
 }

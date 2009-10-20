@@ -1,11 +1,12 @@
 public class Friend
 {
-    String name;
-    String address;
-    String telephoneNumber;
-    int classYear;
+    private String name;
+    private String address;
+    private String telephoneNumber;
+    private int classYear;
     
-    public Friend(String name, String address, String telephoneNumber, int classYear)
+    public Friend(String name, String address, 
+        String telephoneNumber, int classYear)
     {
         this.name = name;
         this.address = address;
