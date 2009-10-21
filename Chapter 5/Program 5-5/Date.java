@@ -3,22 +3,21 @@ import java.util.GregorianCalendar;
 
 public class Date
 {
-    GregorianCalendar date;
+    private GregorianCalendar date;
     
-    public Date(int day, int month, int year)
+    public Date(int month, int day, int year)
     {
         date = new GregorianCalendar(year, month - 1, day);
     }
     
     public Date(String month, int day, int year)
     {
-        date = new GregorianCalendar(year, ParseMonth(month), day);
+        this(Date.ParseMonth(month), day, year);
     }
     
     public Date(int days, int years)
     {
-        date = new GregorianCalendar(years, 0, 1);
-        date.set(Calendar.DAY_OF_YEAR, days);
+        this(days / 31 + 1, days % 31, years);
     }
     
     public String Format1()
@@ -43,9 +42,9 @@ public class Date
     public String Format3()
     {
         String format = "";
-        if (date.get(Calendar.DAY_OF_YEAR) < 100) format += "0";
-        if (date.get(Calendar.DAY_OF_YEAR) < 10) format += "0";
-        format += date.get(Calendar.DAY_OF_YEAR) + " ";
+        if (GetDriversLicenseDay() < 100) format += "0";
+        if (GetDriversLicenseDay() < 10) format += "0";
+        format += GetDriversLicenseDay() + " ";
         if (date.get(Calendar.YEAR) < 1000) format += "0";
         if (date.get(Calendar.YEAR) < 100) format += "0";
         if (date.get(Calendar.YEAR) < 10) format += "0";
@@ -87,23 +86,29 @@ public class Date
             case 12:
                 return "December";
             default:
-                return "";
+                throw new RuntimeException();
         }
     }
     
-    private int ParseMonth(String month)
+    private static int ParseMonth(String month)
     {
-            if (month == "January") return 0;        
-            if (month == "February") return 1;
-            if (month == "March") return 2;
-            if (month == "April") return 3;
-            if (month == "May") return 4;
-            if (month == "June") return 5;
-            if (month == "July") return 6;
-            if (month == "August") return 7;
-            if (month == "September") return 8;
-            if (month == "October") return 9;
-            if (month == "November") return 10;
-            return 11;
+        if (month.equals("January")) return 1;        
+        if (month.equals("February")) return 2;
+        if (month.equals("March")) return 3;
+        if (month.equals("April")) return 4;
+        if (month.equals("May")) return 5;
+        if (month.equals("June")) return 6;
+        if (month.equals("July")) return 7;
+        if (month.equals("August")) return 8;
+        if (month.equals("September")) return 9;
+        if (month.equals("October")) return 10;
+        if (month.equals("November")) return 11;
+        if (month.equals("December")) return 12;
+        throw new IllegalArgumentException();
+    }
+    
+    private int GetDriversLicenseDay()
+    {
+        return date.get(Calendar.MONTH) * 31 + date.get(Calendar.DAY_OF_MONTH);
     }
 }
