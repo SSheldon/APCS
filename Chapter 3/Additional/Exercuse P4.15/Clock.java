@@ -48,20 +48,15 @@ public class Clock extends JPanel
             135 + (int)(length * Math.sin(clockAngle)));
     }
     
-    private double Radians(double degrees)
-    {
-        return (degrees / 180) * Math.PI;
-    }
-    
     //a clock angle is measured clockwise from the positive y axis
     //a math angle is measured counter-clockwise from the positive x axis
     private double GetMinuteHandClockAngle()
     {
-		return Radians(minutes * 6);
+        return Math.toRadians(minutes * 6);
     }
     
     private double GetHourHandClockAngle()
     {
-		return Radians((hours == 12 ? 0 : hours) * 30 + minutes / 2);
+        return Math.toRadians((hours == 12 ? 0 : hours) * 30 + minutes / 2);
     }
 }

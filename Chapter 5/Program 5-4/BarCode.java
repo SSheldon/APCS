@@ -1,6 +1,6 @@
 public class BarCode
 {
-    public boolean[] fullBars = new boolean[32];
+    private boolean[] fullBars = new boolean[32];
     
     public BarCode(Digit[] digits)
     {
@@ -27,16 +27,12 @@ public class BarCode
     {
         int i = 5 * position + 1;
         if ( fullBars[i + 0] &&  fullBars[i + 1] && !fullBars[i + 2] && !fullBars[i + 3] && !fullBars[i + 4]) return new Digit(0);
-        if (!fullBars[i + 0] && !fullBars[i + 1] && !fullBars[i + 2] &&  fullBars[i + 3] &&  fullBars[i + 4]) return new Digit(1);
-        if (!fullBars[i + 0] && !fullBars[i + 1] &&  fullBars[i + 2] && !fullBars[i + 3] &&  fullBars[i + 4]) return new Digit(2);
-        if (!fullBars[i + 0] && !fullBars[i + 1] &&  fullBars[i + 2] &&  fullBars[i + 3] && !fullBars[i + 4]) return new Digit(3);
-        if (!fullBars[i + 0] &&  fullBars[i + 1] && !fullBars[i + 2] && !fullBars[i + 3] &&  fullBars[i + 4]) return new Digit(4);
-        if (!fullBars[i + 0] &&  fullBars[i + 1] && !fullBars[i + 2] &&  fullBars[i + 3] && !fullBars[i + 4]) return new Digit(5);
-        if (!fullBars[i + 0] &&  fullBars[i + 1] &&  fullBars[i + 2] && !fullBars[i + 3] && !fullBars[i + 4]) return new Digit(6);
-        if ( fullBars[i + 0] && !fullBars[i + 1] && !fullBars[i + 2] && !fullBars[i + 3] &&  fullBars[i + 4]) return new Digit(7);
-        if ( fullBars[i + 0] && !fullBars[i + 1] && !fullBars[i + 2] &&  fullBars[i + 3] && !fullBars[i + 4]) return new Digit(8);
-        if ( fullBars[i + 0] && !fullBars[i + 1] &&  fullBars[i + 2] && !fullBars[i + 3] && !fullBars[i + 4]) return new Digit(9);
-        throw new IllegalArgumentException();
+        else return new Digit((fullBars[i + 0] ? 7 : 0) + (fullBars[i + 1] ? 4 : 0) + (fullBars[i + 2] ? 2 : 0) + (fullBars[i + 3] ? 1 : 0));
+    }
+    
+    public boolean IsFullBar(int index)
+    {
+        return fullBars[index];
     }
     
     private void SetDigit(int position, Digit digit)
