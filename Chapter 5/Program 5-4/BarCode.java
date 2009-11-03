@@ -120,13 +120,6 @@ public class BarCode
         return barCode;
     }
     
-    public int toInt32()
-    {
-        int barCode = 0;
-        for (int i = 0; i < 32; i++) barCode += fullBars[31 - i] ? (int)Math.pow(2, i) : 0;
-        return barCode;
-    }
-    
     public boolean AreDigitsValid()
     {
         try

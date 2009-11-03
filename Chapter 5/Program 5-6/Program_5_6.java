@@ -9,12 +9,12 @@ public class Program_5_6
         SavingsAccount.modifyInterestRate(.04);
         saver1.calculateMonthlyInterest();
         saver2.calculateMonthlyInterest();
-        System.out.println("Saver 1 balance: " + saver1.getSavingsBalance());        
+        System.out.println("Saver 1 balance: " + saver1.getSavingsBalance());
         System.out.println("Saver 2 balance: " + saver2.getSavingsBalance());
         SavingsAccount.modifyInterestRate(.05);
         saver1.calculateMonthlyInterest();
         saver2.calculateMonthlyInterest();
-        System.out.println("Saver 1 balance: " + saver1.getSavingsBalance());        
+        System.out.println("Saver 1 balance: " + saver1.getSavingsBalance());
         System.out.println("Saver 2 balance: " + saver2.getSavingsBalance());
     }
 }

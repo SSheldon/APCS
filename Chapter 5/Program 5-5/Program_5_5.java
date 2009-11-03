@@ -37,7 +37,6 @@ public class Program_5_5
             return new Date(
                 Integer.parseInt(s.substring(0, space)),
                 Integer.parseInt(s.substring(space + 1, s.length())));
-                
         }
     }
 }
