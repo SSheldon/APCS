@@ -6,38 +6,20 @@ public class Project_6_4
     public static void main(String[] args)
     {
         Scanner scanner = new Scanner(System.in);
-        Vector<Integer> grades = new Vector<Integer>();
+        IntList grades = new IntList();
         while (true)
         {
             System.out.print("Enter grade (or -1 to quit): ");
             int grade = scanner.nextInt();
             if (grade < 0) break;
-            grades.add(grade);
-        }
-        //get min
-        int min = grades.get(0);
-        for (Integer i : grades)
-        {
-            min = Math.min(min, i);
-        }
-        //get max
-        int max = grades.get(0);
-        for (Integer i : grades)
-        {
-            max = Math.max(max, i);
-        }
-        //get average
-        int sum = 0;
-        for (Integer i : grades)
-        {
-            sum += i;
+            grades.Add(grade);
         }
         System.out.println("Class average letter grade: " + 
-            getLetterGrade(Math.round(sum / grades.size())));
+            getLetterGrade((int)Math.round(grades.Avg())));
         System.out.println("Class minimum letter grade: " +
-            getLetterGrade(min));
+            getLetterGrade(grades.Min()));
         System.out.println("Class maximum letter grade: " +
-            getLetterGrade(max));
+            getLetterGrade(grades.Max()));
     }
     
     public static String getLetterGrade(int grade)
