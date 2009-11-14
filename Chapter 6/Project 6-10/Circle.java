@@ -67,6 +67,9 @@ public class Circle
         direction = degrees % 360;
     }
     
+    public int getVelocity() { return velocity; }
+    public int getDirection() { return direction; }
+    
     public void turn(int degrees)
     {
         direction = (direction + degrees) % 360;
