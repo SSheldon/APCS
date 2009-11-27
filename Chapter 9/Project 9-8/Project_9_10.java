@@ -1,8 +1,11 @@
+import java.util.Scanner;
+
 public class Project_9_10
 {
     public static void main(String[] args)
     {
-        PrintPascalTriangle(10);
+        System.out.print("Enter number of rows to print: ");
+        PrintPascalTriangle(new Scanner(System.in).nextInt());
     }
     
     public static int[][] PascalTriangle(int rows)
