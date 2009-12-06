@@ -15,12 +15,8 @@ public class Project_9_10
         {
             triangle[row] = new int[row + 1];
             for (int col = 0; col < row + 1; col++)
-            {
-                int num;
-                if (col == 0 || col == row) num = 1;
-                else num = triangle[row - 1][col - 1] + triangle[row - 1][col];
-                triangle[row][col] = num;
-            }
+                triangle[row][col] = col == 0 || col == row ? 1 :
+                    triangle[row - 1][col - 1] + triangle[row - 1][col];
         }
         return triangle;
     }
@@ -28,12 +24,9 @@ public class Project_9_10
     public static void PrintPascalTriangle(int rows)
     {
         int[][] triangle = PascalTriangle(rows);
-        for (int row = 0; row < rows; row++)
+        for (int[] row : triangle)
         {
-            for (int num : triangle[row])
-            {
-                System.out.print(num + " ");
-            }
+            for (int num : row) System.out.print(num + " ");
             System.out.println();
         }
     }
