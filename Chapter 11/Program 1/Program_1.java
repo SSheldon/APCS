@@ -1,9 +1,20 @@
 import java.util.List;
 import java.util.Collections;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Program_1
 {
+    public static void main(String[] args)
+    {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of integers to be generated: ");
+        List<Integer> list = createList(scanner.nextInt());
+        System.out.println(list);
+        System.out.println("Mean: " + getMean(list));
+        System.out.println("Median: " + getMedian(list));
+    }
+    
     public static List<Integer> createList(int n)
     {
         ArrayList<Integer> list = new ArrayList<Integer>(n);

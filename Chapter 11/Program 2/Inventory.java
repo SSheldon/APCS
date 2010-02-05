@@ -11,7 +11,10 @@ class Inventory
     
     public void addNewProduct(String name, double cost, int amount)
     {
-        products.add(new Product(name, cost, amount));
+        int i;
+        for (i = 0; i < products.size() && 
+            name.compareTo(products.get(i).getItem()) > 0; i++);
+        products.add(i, new Product(name, cost, amount));
     }
     
     public ArrayList<String> mustOrder()
