@@ -1,26 +1,21 @@
-import java.awt.Point;
-
 public class StringMaze extends Maze
 {
     private final String[] maze;
-    private final Point entrance, exit;
+    public final int entX, entY, exitX, exitY;
     
-    public StringMaze(String[] maze, Point entrance, Point exit)
+    public StringMaze(String[] maze, int entX, int entY, int exitX, int exitY)
     {
         this.maze = maze;
-        this.entrance = entrance;
-        this.exit = exit;
+        this.entX = entX;
+        this.entY = entY;
+        this.exitX = exitX;
+        this.exitY = exitY;
     }
     
-    public Point Entrance()
-    {
-        return new Point(entrance);
-    }
-    
-    public Point Exit()
-    {
-        return new Point(exit);
-    }
+    public int EntranceX() { return entX; }
+    public int EntranceY() { return entY; }
+    public int ExitX() { return exitX; }
+    public int ExitY() { return exitY; }
     
     public boolean IsEmpty(int x, int y)
     {

@@ -1,15 +1,11 @@
-import java.awt.Point;
-
 public abstract class Maze
 {
-    public abstract Point Entrance();
-    
-    public abstract Point Exit();
+    public abstract int EntranceX();
+    public abstract int EntranceY();
+    public abstract int ExitX();
+    public abstract int ExitY();
     
     public abstract boolean IsEmpty(int x, int y);
-    
-    public boolean IsEmpty(Point p)
-    { return IsEmpty(p.x, p.y); }
     
     private int SurroundingEmpties(int x, int y)
     {
@@ -21,9 +17,9 @@ public abstract class Maze
         return accumulator;
     }
     
-    public boolean IsSplit(Point p)
-    { return SurroundingEmpties(p.x, p.y) > 2; }
+    public boolean IsSplit(int x, int y)
+    { return SurroundingEmpties(x, y) > 2; }
     
-    public boolean IsDeadEnd(Point p)
-    { return SurroundingEmpties(p.x, p.y) <= 1; }
+    public boolean IsDeadEnd(int x, int y)
+    { return SurroundingEmpties(x, y) <= 1; }
 }

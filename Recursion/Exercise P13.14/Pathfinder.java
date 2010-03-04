@@ -1,4 +1,3 @@
-import java.awt.Point;
 import java.util.Stack;
 
 public class Pathfinder
@@ -16,73 +15,82 @@ public class Pathfinder
     public Stack<Move> GetMoves()
     {        
         moves = new Stack<Move>();
-        Point entrance = maze.Entrance();
-        LeadsToExit(Next(entrance, entrance), entrance);
+        int x = maze.EntranceX(), y = maze.EntranceY();
+        LeadsToExit(NextX(x, y, x, y), NextY(x, y, x, y), x, y);
         return moves;
     }
     
-    private boolean LeadsToExit(Point p, Point old)
+    private boolean LeadsToExit(int x, int y, int oldX, int oldY)
     {
-        if (p.equals(maze.Exit()))
+        if (x == maze.ExitX() && y == maze.ExitY())
         {
-            AddMove(p, old);
+            AddMove(x, y, oldX, oldY);
             return true;
         }
-        else if (maze.IsDeadEnd(p)) return false;
-        else if (!maze.IsSplit(p))
-        {
-            if (LeadsToExit(Next(p, old), p))
-            {
-                AddMove(p, old);
-                return true;
-            }
-            else return false;
-        }
+        else if (maze.IsDeadEnd(x, y)) return false;
         else
         {
-            if (LeadsToExit(Next(p, old), p) ||
-                LeadsToExit(AltNext(p, old), p))
+            if (LeadsToExit(NextX(x, y, oldX, oldY),
+                NextY(x, y, oldX, oldY), x, y))
             {
-                AddMove(p, old);
+                AddMove(x, y, oldX, oldY);
                 return true;
+            }
+            else if (maze.IsSplit(x, y))
+            {
+                if (LeadsToExit(AltNextX(x, y, oldX, oldY),
+                    AltNextY(x, y, oldX, oldY), x, y))
+                {
+                    AddMove(x, y, oldX, oldY);
+                    return true;
+                }
+                else return false;
             }
             else return false;
         }
     }
     
-    private void AddMove(Point p, Point old)
+    private void AddMove(int x, int y, int oldX, int oldY)
     {
-        if (p.y > old.y) moves.push(Move.Up);
-        else if (p.y < old.y) moves.push(Move.Down);
-        else if (p.x > old.x) moves.push(Move.Right);
-        else if (p.x < old.x) moves.push(Move.Left);
+        if (y > oldY) moves.push(Move.Up);
+        else if (y < oldY) moves.push(Move.Down);
+        else if (x > oldX) moves.push(Move.Right);
+        else if (x < oldX) moves.push(Move.Left);
     }
     
-    private Point Next(Point p, Point old)
+    private int NextX(int x, int y, int oldX, int oldY)
     {
-        Point next = new Point(p);
-        next.translate(0, 1);
-        if (maze.IsEmpty(next) && !old.equals(next)) return next;
-        next.translate(-1, -1);
-        if (maze.IsEmpty(next) && !old.equals(next)) return next;
-        next.translate(1, -1);
-        if (maze.IsEmpty(next) && !old.equals(next)) return next;
-        next.translate(1, 1);
-        if (maze.IsEmpty(next) && !old.equals(next)) return next;
-        throw new RuntimeException();
+        if (maze.IsEmpty(x + 1, y) && x + 1 != oldX) return x + 1;
+        else if (maze.IsEmpty(x, y - 1) && y - 1 != oldY) return x;
+        else if (maze.IsEmpty(x - 1, y) && x - 1 != oldX) return x - 1;
+        else if (maze.IsEmpty(x, y + 1) && y + 1 != oldY) return x;
+        else throw new RuntimeException();
     }
     
-    private Point AltNext(Point p, Point old)
+    private int NextY(int x, int y, int oldX, int oldY)
     {
-        Point next = new Point(p);
-        next.translate(1, 0);
-        if (maze.IsEmpty(next) && !old.equals(next)) return next;
-        next.translate(-1, -1);
-        if (maze.IsEmpty(next) && !old.equals(next)) return next;
-        next.translate(-1, 1);
-        if (maze.IsEmpty(next) && !old.equals(next)) return next;
-        next.translate(1, 1);
-        if (maze.IsEmpty(next) && !old.equals(next)) return next;
-        throw new RuntimeException();
+        if (maze.IsEmpty(x + 1, y) && x + 1 != oldX) return y;
+        else if (maze.IsEmpty(x, y - 1) && y - 1 != oldY) return y - 1;
+        else if (maze.IsEmpty(x - 1, y) && x - 1 != oldX) return y;
+        else if (maze.IsEmpty(x, y + 1) && y + 1 != oldY) return y + 1;
+        else throw new RuntimeException();
+    }
+    
+    private int AltNextX(int x, int y, int oldX, int oldY)
+    {
+        if (maze.IsEmpty(x, y + 1) && y + 1 != oldY) return x;
+        else if (maze.IsEmpty(x - 1, y) && x - 1 != oldX) return x - 1;
+        else if (maze.IsEmpty(x, y - 1) && y - 1 != oldY) return x;
+        else if (maze.IsEmpty(x + 1, y) && x + 1 != oldX) return x + 1;
+        else throw new RuntimeException();
+    }
+    
+    private int AltNextY(int x, int y, int oldX, int oldY)
+    {
+        if (maze.IsEmpty(x, y + 1) && y + 1 != oldY) return y + 1;
+        else if (maze.IsEmpty(x - 1, y) && x - 1 != oldX) return y;
+        else if (maze.IsEmpty(x, y - 1) && y - 1 != oldY) return y - 1;
+        else if (maze.IsEmpty(x + 1, y) && x + 1 != oldX) return y;
+        else throw new RuntimeException();
     }
 }
